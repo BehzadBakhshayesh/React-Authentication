@@ -11,48 +11,74 @@ import {
   Link,
 } from "react-router-dom";
 
-function App() {
-  const [isAuth, setIsAuth] = useState(() => !!localStorage.getItem("token"));
+const Authenticated = ({ isAuth, setIsAuth }) => {
   let { pathname } = useLocation();
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (isAuth && pathname === "/login") {
+  //     navigate(-1) ?? navigate("/");
+  //   }
+  // }, [isAuth, pathname]);
+
+  return (
+    <>
+      {pathname === "/login" && <Navigate to="/" />}
+      <div style={header}>
+        <h2>Header</h2>
+        <nav>
+          <Link to="/">Home</Link>
+          <br />
+          <Link to="/about">About</Link>
+        </nav>
+        <button
+          onClick={() => {
+            localStorage.clear();
+            localStorage.removeItem("token");
+            setIsAuth(false);
+            navigate("/login");
+          }}
+        >
+          logOut
+        </button>
+      </div>
+      <div style={content}>
+        <Routes>
+          <Route path="/about" element={<About />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </div>
+    </>
+  );
+};
+
+const NotAuthenticated = ({ setIsAuth }) => {
+  let { pathname } = useLocation();
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   if (pathname !== "/login") {
+  //     navigate("/login");
+  //   }
+  // }, [pathname]);
+  return (
+    <>
+      {pathname !== "/login" && <Navigate to="/login" />}
+      <Routes>
+        <Route path="/login" element={<Login setIsAuth={setIsAuth} />} />
+      </Routes>
+    </>
+  );
+};
+
+function App() {
+  const [isAuth, setIsAuth] = useState(() => !!localStorage.getItem("token"));
 
   return (
     <div className="App">
       {isAuth ? (
-        <>
-          {pathname === "/login" && <Navigate to="/" />}
-          <div style={header}>
-            <h2>Header</h2>
-            <nav>
-              <Link to="/">Home</Link>
-              <br />
-              <Link to="/about">About</Link>
-            </nav>
-            <button
-              onClick={() => {
-                localStorage.clear();
-                localStorage.removeItem("token");
-                setIsAuth(false);
-                navigate("/login");
-              }}
-            >
-              logOut
-            </button>
-          </div>
-          <div style={content}>
-            <Routes>
-              <Route path="/about" element={<About />} />
-              <Route path="/" element={<Home />} />
-            </Routes>
-          </div>
-        </>
+        <Authenticated isAuth={isAuth} setIsAuth={setIsAuth} />
       ) : (
-        <>
-          {pathname !== "/login" && <Navigate to="/login" />}
-          <Routes>
-            <Route path="/login" element={<Login setIsAuth={setIsAuth} />} />
-          </Routes>
-        </>
+        <NotAuthenticated setIsAuth={setIsAuth} />
       )}
     </div>
   );

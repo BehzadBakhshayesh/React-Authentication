@@ -32,6 +32,7 @@ const Login = ({ setIsAuth }) => {
             .then((response) => {
               if (response.status === 200) {
                 localStorage.setItem("token", response?.data?.token);
+                // navigate(-1) ?? navigate("/");
                 navigate("/");
                 setIsAuth(true);
               }
