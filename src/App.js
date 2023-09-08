@@ -20,7 +20,7 @@ function App() {
     <div className="App">
       {isAuth ? (
         <>
-          {pathname === "/login" && <Navigate to="/login" />}
+          {pathname === "/login" && <Navigate to="/" />}
           <div style={header}>
             <h2>Header</h2>
             <nav>
