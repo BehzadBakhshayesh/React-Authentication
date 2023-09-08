@@ -44,8 +44,8 @@ const Authenticated = ({ isAuth, setIsAuth }) => {
       </div>
       <div style={content}>
         <Routes>
-          <Route path="/about" element={<About />} />
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </div>
     </>
