@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { About } from "./pages/About";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
 import {
   Routes,
   Route,
@@ -10,6 +7,9 @@ import {
   useLocation,
   Link,
 } from "react-router-dom";
+import About from "./pages/About";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 const Authenticated = ({ isAuth, setIsAuth }) => {
   let { pathname } = useLocation();
